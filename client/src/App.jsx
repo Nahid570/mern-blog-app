@@ -10,6 +10,8 @@ import PostDetails from "./components/Posts/PostDetails";
 import PostsList from "./components/Posts/PostsList";
 import UpdatePost from "./components/Posts/UpdatePost";
 import Login from "./components/Users/Login/Login";
+import Profile from "./components/Users/Profile/Profile";
+import UploadProfilePhoto from "./components/Users/Profile/UploadProfilePhoto";
 import Register from "./components/Users/Register/Register";
 import AdminRoutes from "./hooks/Routes/AdminRoutes";
 import PrivateRoutes from "./hooks/Routes/PrivateRoutes";
@@ -30,6 +32,8 @@ function App() {
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/update-post/:id" element={<UpdatePost />} />
             <Route path="/update-comment/:id" element={<UpdateComment />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/upload-profile-photo" element={<UploadProfilePhoto />} />
         </Route>
         {/* ADMIN ROUTES  */}
         <Route path="/" element={<AdminRoutes />}>

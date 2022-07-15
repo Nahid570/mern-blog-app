@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseUrl } from "../../../utils/baseUrl";
 
+// create category
 export const createCategoryAction = createAsyncThunk(
   "category/create",
   async (category, { rejectWithValue, getState, dispatch }) => {

@@ -38,7 +38,7 @@ const Login = () => {
 
   // redirect user if login data available to localstorage
   if (userAuth) {
-    return <Navigate to="/profile" replace={true} />;
+    return <Navigate to={`/profile/${userAuth?._id}`} replace={true} />;
   }
 
   return (
