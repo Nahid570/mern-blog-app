@@ -16,7 +16,7 @@ const commentSchema = new mongoose.Schema(
       required: [true, "Comment description is required"],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Comment = mongoose.model("Comment", commentSchema);

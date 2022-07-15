@@ -56,7 +56,7 @@ export default function PostsList() {
                   </h4>
                   <ul>
                    {
-                    catLoading ? <LoadingSpinner /> : catServerErr || catAppErr ? <h1>{catAppErr} {catServerErr}</h1> : categoryList.length <=0 ? <h1>No Category avaiable</h1> : categoryList?.map((category) => (
+                    catLoading ? <LoadingSpinner /> : catServerErr || catAppErr ? <h1>{catAppErr} {catServerErr}</h1> : categoryList?.length <=0 ? <h1>No Category avaiable</h1> : categoryList?.map((category) => (
                       <li key={category?._id}>
                       <p onClick={() => dispatch(fetchAllPostsAction(category?.title))} className="block cursor-pointer py-2 px-3 mb-4 rounded text-yellow-500 font-bold bg-gray-500">
                         {category?.title}
@@ -156,7 +156,7 @@ export default function PostsList() {
                 </div>
               </div>
                     )
-                }) : <h1>Currently no posts avaiable!</h1>}
+                }) : <h1 className="text-yellow-400 text-center">Currently no posts avaiable!</h1>}
               </div>
             </div>
           </div>

@@ -1,14 +1,16 @@
 import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPostDetailsAction } from "../../redux/slices/posts/PostSlices";
+import { deletePostAction, fetchPostDetailsAction } from "../../redux/slices/posts/PostSlices";
 import DateFormatter from "../../utils/DateFormatter";
 import LoadingSpinner from "../../utils/LoadingSpinner";
+import AddComments from "../Comments/AddComments";
 
 const PostDetails = () => {
     const {id} = useParams();
+    const navigate = useNavigate();
     
     const dispatch = useDispatch();
 
@@ -18,7 +20,18 @@ const PostDetails = () => {
     }, [dispatch, id])
 
     const post = useSelector(state => state?.post);
-    const {postDetails, appErr, serverErr, loading} = post;
+    const {postDetails, appErr, serverErr, loading, isDeleted} = post;
+    console.log(postDetails?.comments);
+    // get the login user
+    const user = useSelector(state => state?.users);
+    const {userAuth: {_id}} = user;
+    
+    const isCreatedBy = _id === postDetails?.user?._id;
+    
+
+    if(isDeleted){
+      return navigate("/posts", {replace: true});
+    }
 
   return (
     <>
@@ -58,20 +71,22 @@ const PostDetails = () => {
             <div className="max-w-xl mx-auto">
               <p className="mb-6 text-left  text-xl text-gray-200">
                 {postDetails?.description}
-                <p className="flex">
+                {
+                  isCreatedBy && (<p className="flex">
                   <Link to={`/update-post/${postDetails?.id}`} className="p-3">
                     <PencilAltIcon className="h-8 mt-3 text-yellow-300" />
                   </Link>
-                  <button className="ml-3">
+                  <button onClick={() => dispatch(deletePostAction(postDetails?.id))}  className="ml-3">
                     <TrashIcon className="h-8 mt-3 text-red-600" />
                   </button>
-                </p>
+                </p>)
+                }
               </p>
             </div>
           </div>
         </div>
         {/* Add comment Form component here */}
-
+          <AddComments postId={id}/>
         <div className="flex justify-center  items-center">
           {/* <CommentsList comments={post?.comments} postId={post?._id} /> */}
           CommentsList

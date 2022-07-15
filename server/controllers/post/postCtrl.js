@@ -44,11 +44,17 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
 const fetchPostsCtrl = expressAsyncHandler(async (req, res) => {
   const hasCategory = req?.query?.category;
   try {
-    if(hasCategory){
-      const posts = await Post.find({category: hasCategory}).populate("user").sort({"createdAt": -1});
+    if (hasCategory) {
+      const posts = await Post.find({ category: hasCategory })
+        .populate("user")
+        .populate("comments")
+        .sort({ createdAt: -1 });
       res.json(posts);
-    }else{
-      const posts = await Post.find().populate("user").sort({"createdAt": -1});
+    } else {
+      const posts = await Post.find()
+        .populate("user")
+        .populate("comments")
+        .sort({ createdAt: -1 });
       res.json(posts);
     }
   } catch (error) {
@@ -64,7 +70,8 @@ const fetchPostCtrl = expressAsyncHandler(async (req, res) => {
     const post = await Post.findById(id)
       .populate("user")
       .populate("likes")
-      .populate("dislikes");
+      .populate("dislikes")
+      .populate("comments");
     // Increment post views
     await Post.findByIdAndUpdate(
       id,
@@ -104,10 +111,10 @@ const updatePostCtrl = expressAsyncHandler(async (req, res) => {
 
 // DELETE POST
 const deletePostCtrl = expressAsyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const { id } = req?.params;
   validateMongodbID(id);
   try {
-    const deletedPost = await Post.findOneAndDelete(id);
+    const deletedPost = await Post.findByIdAndDelete(id);
     res.json(deletedPost);
   } catch (error) {
     res.json(error);
