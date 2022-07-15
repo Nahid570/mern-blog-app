@@ -7,21 +7,24 @@ import { deletePostAction, fetchPostDetailsAction } from "../../redux/slices/pos
 import DateFormatter from "../../utils/DateFormatter";
 import LoadingSpinner from "../../utils/LoadingSpinner";
 import AddComments from "../Comments/AddComments";
+import CommentsList from "../Comments/CommentsList";
 
 const PostDetails = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     
     const dispatch = useDispatch();
-
+    // get comment created action from store
+    const comment = useSelector(state => state?.comment);
+    const {commentCreated} = comment;
     // fetch post details
     useEffect(() => {
         dispatch(fetchPostDetailsAction(id));
-    }, [dispatch, id])
+    }, [dispatch, id, commentCreated])
 
     const post = useSelector(state => state?.post);
     const {postDetails, appErr, serverErr, loading, isDeleted} = post;
-    console.log(postDetails?.comments);
+    
     // get the login user
     const user = useSelector(state => state?.users);
     const {userAuth: {_id}} = user;
@@ -88,8 +91,7 @@ const PostDetails = () => {
         {/* Add comment Form component here */}
           <AddComments postId={id}/>
         <div className="flex justify-center  items-center">
-          {/* <CommentsList comments={post?.comments} postId={post?._id} /> */}
-          CommentsList
+          <CommentsList comments={postDetails?.comments}/>
         </div>
       </section>)
       }

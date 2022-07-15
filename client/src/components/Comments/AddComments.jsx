@@ -20,13 +20,17 @@ const AddComments = ({ postId }) => {
     initialValues: {
       description: "",
     },
-    onSubmit: values => {
+    onSubmit: (values, actions) => {
       const data = {
         postId,
         description: values?.description,
       };
-      console.log(data);
-      dispatch(createCommentAction(data));
+      dispatch(createCommentAction(data)).then(() => {
+        actions.setSubmitting(false);
+        actions.resetForm({
+          description: ''
+        })
+      });;
     },
     validate
   });
