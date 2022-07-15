@@ -16,20 +16,20 @@ const PostDetails = () => {
     const dispatch = useDispatch();
     // get comment created action from store
     const comment = useSelector(state => state?.comment);
-    const {commentCreated} = comment;
+    const {commentCreated, commentDeleted} = comment;
     // fetch post details
     useEffect(() => {
         dispatch(fetchPostDetailsAction(id));
-    }, [dispatch, id, commentCreated])
+    }, [dispatch, id, commentCreated, commentDeleted])
 
     const post = useSelector(state => state?.post);
     const {postDetails, appErr, serverErr, loading, isDeleted} = post;
     
     // get the login user
     const user = useSelector(state => state?.users);
-    const {userAuth: {_id}} = user;
+    const {userAuth} = user;
     
-    const isCreatedBy = _id === postDetails?.user?._id;
+    const isCreatedBy = userAuth?._id === postDetails?.user?._id;
     
 
     if(isDeleted){

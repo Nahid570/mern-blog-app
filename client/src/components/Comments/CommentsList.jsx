@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 import Moment from "react-moment";
+import { deleteCommentAction } from "../../redux/slices/comment/CommentSlices";
+import {useDispatch, useSelector} from 'react-redux'
 
 export default function CommentsList({ comments }) {
-  
+    const dispatch = useDispatch();
+    const user = useSelector(state => state?.users);
+    const loginUser = user?.userAuth?._id;
+
   return (
     <div>
       <ul className="divide-y bg-gray-700 w-96 divide-gray-200 p-3 mt-5">
@@ -37,14 +42,16 @@ export default function CommentsList({ comments }) {
                       </p>
                       {/* Check if is the same user created this comment */}
 
-                      <p className="flex">
-                        <Link className="p-3" to="/">
-                          <PencilAltIcon className="h-5 mt-3 text-yellow-300" />
-                        </Link>
-                        <button className="ml-3">
-                          <TrashIcon className="h-5 mt-3 text-red-600" />
-                        </button>
-                      </p>
+                     {
+                      loginUser === comment?.user?._id && ( <p className="flex">
+                      <Link className="p-3" to={`/update-comment/${comment?.id}`}>
+                        <PencilAltIcon className="h-5 mt-3 text-yellow-300" />
+                      </Link>
+                      <button className="ml-3">
+                        <TrashIcon onClick={() => dispatch(deleteCommentAction(comment?._id))} className="h-5 mt-3 text-red-600" />
+                      </button>
+                    </p>)
+                     }
                     </div>
                   </div>
                 </li>

@@ -77,7 +77,7 @@ export default function PostsList() {
                 ) : postsList?.length > 0 ? postsList?.map(post => {
                     return (
                         <div key={post?._id} className="flex flex-wrap bg-gray-900 -mx-3  lg:mb-6">
-                <div className="mb-10  w-full lg:w-1/4 px-3">
+                <div className="mb-10  w-full lg:w-1/4">
                   <Link to="/">
                     {/* Post image */}
                     <img

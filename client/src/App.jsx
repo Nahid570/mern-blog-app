@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import AddCategory from "./components/Category/AddCategory";
 import CategoryList from "./components/Category/CategoryList";
 import UpdateCategory from "./components/Category/UpdateCategory";
+import UpdateComment from "./components/Comments/UpdateComment";
 import Homepage from "./components/Homepage/Homepage";
 import Navbar from "./components/Navigation/Navbar";
 import CreatePost from "./components/Posts/CreatePost";
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<PrivateRoutes />}>
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/update-post/:id" element={<UpdatePost />} />
+            <Route path="/update-comment/:id" element={<UpdateComment />} />
         </Route>
         {/* ADMIN ROUTES  */}
         <Route path="/" element={<AdminRoutes />}>
