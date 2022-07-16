@@ -9,21 +9,27 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { MailIcon, EyeIcon } from "@heroicons/react/solid";
-import { userProfileAction } from "../../../redux/slices/users/UsersSlices";
+import {
+  userFollowAction,
+  userProfileAction,
+  userUnfollowAction,
+} from "../../../redux/slices/users/UsersSlices";
 import DateFormatter from "../../../utils/DateFormatter";
 
 export default function Profile() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
+   // get profile data from the store
+   const user = useSelector((state) => state?.users);
+   const { userProfile, follow, unFollow } = user;
+
   // fetch user profile
   useEffect(() => {
     dispatch(userProfileAction(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, follow, unFollow]);
 
-  // get profile data from the store
-  const user = useSelector((state) => state?.users);
-  const { userProfile } = user;
+ 
 
   return (
     <>
@@ -60,16 +66,18 @@ export default function Profile() {
                               {/* {profile?.accountType} */}
                             </span>
                             {/* Display if verified or not */}
-                            {
-                                userProfile?.isAccountVerified ? <span className="inline-flex ml-2 items-center px-3 py-0.5  rounded-lg text-sm font-medium bg-green-600 text-gray-300">
+                            {userProfile?.isAccountVerified ? (
+                              <span className="inline-flex ml-2 items-center px-3 py-0.5  rounded-lg text-sm font-medium bg-green-600 text-gray-300">
                                 Account Verified
-                              </span> : <span className="inline-flex ml-2 items-center px-3 py-0.5  rounded-lg text-sm font-medium bg-red-600 text-gray-300">
-                              Unverified Account
-                            </span>
-                            }
+                              </span>
+                            ) : (
+                              <span className="inline-flex ml-2 items-center px-3 py-0.5  rounded-lg text-sm font-medium bg-red-600 text-gray-300">
+                                Unverified Account
+                              </span>
+                            )}
                           </h1>
                           <p className="m-3 text-lg text-green-600">
-                            Joined: {" "}
+                            Joined:{" "}
                             <DateFormatter date={userProfile?.createdAt} />
                           </p>
                           <p className="text-green-600 mt-2 mb-2">
@@ -105,31 +113,33 @@ export default function Profile() {
                         <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                           {/* // Hide follow button from the same */}
                           <div>
-                            <button
-                              // onClick={() =>
-                              //   dispatch(unFollowUserAction(profile?._id))
-                              // }
-                              className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                            >
-                              <EmojiSadIcon
-                                className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                                aria-hidden="true"
-                              />
-                              <span>Unfollow</span>
-                            </button>
-
                             <>
-                              <button
-                                // onClick={followHandler}
-                                type="button"
-                                className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                              >
-                                <HeartIcon
-                                  className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                                  aria-hidden="true"
-                                />
-                                <span>Follow </span>
-                              </button>
+                              {userProfile?.isFollowing ? (
+                                <button
+                                 onClick={() => dispatch(userUnfollowAction(id))}
+                                  className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+                                >
+                                  <EmojiSadIcon
+                                    className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+                                    aria-hidden="true"
+                                  />
+                                  <span>Unfollow</span>
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => dispatch(userFollowAction(id))}
+                                  type="button"
+                                  className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+                                >
+                                  <HeartIcon
+                                    className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+                                    aria-hidden="true"
+                                  />
+                                  <span>
+                                    Follow
+                                  </span>
+                                </button>
+                              )}
                             </>
                           </div>
 
@@ -210,39 +220,48 @@ export default function Profile() {
                       My Posts
                     </h1>
                     {/* Loo here */}
-                    {
-                        userProfile?.posts?.length <= 0 ? <h1 className="text-green-600 text-center">There is no posts available</h1> : userProfile?.posts?.map((post) => (<div key={post?._id} className="flex flex-wrap  -mx-3 mt-3  lg:mb-6">
-                        <div className="mb-2   w-full lg:w-1/4 px-3">
-                          <Link to="/">
-                            <img
-                              className="object-cover h-40 rounded"
-                              src={post?.image}
-                              alt="poster"
-                            />
-                          </Link>
+                    {userProfile?.posts?.length <= 0 ? (
+                      <h1 className="text-green-600 text-center">
+                        There is no posts available
+                      </h1>
+                    ) : (
+                      userProfile?.posts?.map((post) => (
+                        <div
+                          key={post?._id}
+                          className="flex flex-wrap  -mx-3 mt-3  lg:mb-6"
+                        >
+                          <div className="mb-2   w-full lg:w-1/4 px-3">
+                            <Link to="/">
+                              <img
+                                className="object-cover h-40 rounded"
+                                src={post?.image}
+                                alt="poster"
+                              />
+                            </Link>
+                          </div>
+                          <div className="w-full lg:w-3/4 px-3">
+                            <Link
+                              to={`/posts/${post?._id}`}
+                              className="hover:underline"
+                            >
+                              <h3 className="mb-1 text-2xl text-green-600 font-bold font-heading">
+                                {post?.title}
+                              </h3>
+                            </Link>
+                            <p className="text-gray-600 truncate">
+                              {post?.description}
+                            </p>
+
+                            <Link
+                              className="text-indigo-500 hover:underline"
+                              to={`/posts/${post?._id}`}
+                            >
+                              Read more
+                            </Link>
+                          </div>
                         </div>
-                        <div className="w-full lg:w-3/4 px-3">
-                          <Link
-                            to={`/posts/${post?._id}`}
-                            className="hover:underline"
-                          >
-                            <h3 className="mb-1 text-2xl text-green-600 font-bold font-heading">
-                              {(post?.title)}
-                            </h3>
-                          </Link>
-                          <p className="text-gray-600 truncate">
-                            {post?.description}
-                          </p>
-          
-                          <Link
-                            className="text-indigo-500 hover:underline"
-                            to={`/posts/${post?._id}`}
-                          >
-                            Read more
-                          </Link>
-                        </div>
-                      </div>))
-                    }
+                      ))
+                    )}
                   </div>
                 </div>
               </article>

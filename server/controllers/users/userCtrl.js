@@ -139,7 +139,7 @@ const updateUserPasswordCtrl = expressAsyncHandler(async (req, res) => {
 // user following controller
 const followingUserCtrl = expressAsyncHandler(async (req, res) => {
   const { followId } = req?.body;
-  const loginUserId = req.user.id;
+  const loginUserId = req?.user?.id;
 
   // find the target id and check login id already exists?
   const targetUser = await User.findById(followId);
