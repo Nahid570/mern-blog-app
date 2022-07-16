@@ -68,7 +68,7 @@ userRouter.put(
   uploadProfilePhotoCtrl
 );
 // user profile update
-userRouter.put("/:id", authMiddleware, userProfileUpdateCtrl);
+userRouter.put("/", authMiddleware, userProfileUpdateCtrl);
 // delete user
 userRouter.delete("/:id", deleteUserCtrl);
 // fetch single user details

@@ -96,12 +96,12 @@ const userProfileCtrl = expressAsyncHandler(async (req, res) => {
 
 // User profile update controller
 const userProfileUpdateCtrl = expressAsyncHandler(async (req, res) => {
-  const { id } = req?.params;
-  validateMongodbID(id);
+  const { _id } = req?.user;
+  validateMongodbID(_id);
 
   try {
     const user = await User.findByIdAndUpdate(
-      id,
+      _id,
       {
         firstName: req?.body?.firstName,
         lastName: req?.body?.lastName,

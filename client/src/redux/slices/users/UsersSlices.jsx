@@ -4,6 +4,7 @@ import { baseUrl } from '../../../utils/baseUrl'
 
 // create actions
 const profilePhotoReset = createAction("reset/profile");
+const updateUserProfileReset = createAction("update-profile/reset")
 
 // register
 export const registerUserAction = createAsyncThunk('users/register', async (user, {rejectWithValue, getState,dispatch}) => {
@@ -115,6 +116,40 @@ export const userProfilePhotoAction = createAsyncThunk(
     }
   );
 
+// update user profile
+export const userProfileUpdateAction = createAsyncThunk(
+    "profile/update",
+    async (userData, { rejectWithValue, getState, dispatch }) => {
+      // get the token
+      const users = getState()?.users;
+      const { token } = users?.userAuth;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      try {
+        const { data } = await axios.put(
+          `${baseUrl}/api/users`,
+          {
+           firstName: userData?.firstName,
+           lastName: userData?.lastName,
+           email: userData?.email,
+           bio: userData?.bio
+          },
+           config
+        );
+        dispatch(updateUserProfileReset())
+        return data;
+      } catch (error) {
+        if (!error?.response) {
+          throw error;
+        }
+        return rejectWithValue(error?.response?.data);
+      }
+    }
+  );
+
 // retrive user login credential after successfull login and save into store
 const userData = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
 
@@ -157,7 +192,7 @@ const userSlices = createSlice({
             state.serverErr = action?.error?.message;
         });
 
-        // user profile
+        // fetch user profile
         builder.addCase(userProfileAction.pending, (state, action) => {
             state.loading = true;
         });
@@ -168,6 +203,27 @@ const userSlices = createSlice({
             state.serverErr = undefined;
         });
         builder.addCase(userProfileAction.rejected, (state, action) => {
+            state.loading = false;
+            state.appErr = action?.payload.message;
+            state.serverErr = action?.error?.message;
+        });
+
+
+        // update user profile
+        builder.addCase(userProfileUpdateAction.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(updateUserProfileReset, (state, action) => {
+            state.isProfileUpdated = true;
+        });
+        builder.addCase(userProfileUpdateAction.fulfilled, (state, action) => {
+            state.userProfileUpdate = action?.payload;
+            state.loading = false;
+            state.appErr = undefined;
+            state.serverErr = undefined;
+            state.isProfileUpdated = false;
+        });
+        builder.addCase(userProfileUpdateAction.rejected, (state, action) => {
             state.loading = false;
             state.appErr = action?.payload.message;
             state.serverErr = action?.error?.message;
