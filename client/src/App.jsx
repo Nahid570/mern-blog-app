@@ -9,6 +9,7 @@ import CreatePost from "./components/Posts/CreatePost";
 import PostDetails from "./components/Posts/PostDetails";
 import PostsList from "./components/Posts/PostsList";
 import UpdatePost from "./components/Posts/UpdatePost";
+import SendEmail from "./components/Users/Email/SendEmail";
 import Login from "./components/Users/Login/Login";
 import Profile from "./components/Users/Profile/Profile";
 import UpdateProfile from "./components/Users/Profile/UpdateProfile";
@@ -42,6 +43,7 @@ function App() {
             <Route path="/add-category" element={<AddCategory />}/>
             <Route path="/category-list" element={<CategoryList />}/>
             <Route path="/update-category/:id" element={<UpdateCategory />}/>
+            <Route path="/send-email" element={<SendEmail />}/>
         </Route>
         <Route path="/*" element={<NotFound />}/>
       </Routes>
