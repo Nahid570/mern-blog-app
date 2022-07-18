@@ -9,6 +9,7 @@ import CreatePost from "./components/Posts/CreatePost";
 import PostDetails from "./components/Posts/PostDetails";
 import PostsList from "./components/Posts/PostsList";
 import UpdatePost from "./components/Posts/UpdatePost";
+import VerifyAccount from "./components/Users/accountVerification/VerifyAccount";
 import SendEmail from "./components/Users/Email/SendEmail";
 import Login from "./components/Users/Login/Login";
 import Profile from "./components/Users/Profile/Profile";
@@ -37,6 +38,7 @@ function App() {
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/upload-profile-photo" element={<UploadProfilePhoto />} />
             <Route path="/update-profile" element={<UpdateProfile />} />
+            <Route path="/verify-account/:token" element={<VerifyAccount />} />
         </Route>
         {/* ADMIN ROUTES  */}
         <Route path="/" element={<AdminRoutes />}>

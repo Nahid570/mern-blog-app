@@ -4,8 +4,7 @@ import PostReducer from '../slices/posts/PostSlices'
 import usersReducer from '../slices/users/UsersSlices'
 import CommentReducer from '../slices/comment/CommentSlices'
 import mailReducer from '../slices/email/emailSlice'
-
-
+import accountVerification from '../slices/accountVerification/accountVericationSlice'
 
 
 const store = configureStore({
@@ -14,7 +13,8 @@ const store = configureStore({
         category: categorySlices,
         post: PostReducer,
         comment: CommentReducer,
-        sendingMail: mailReducer
+        sendingMail: mailReducer,
+        accountVerification
     }
 })
 

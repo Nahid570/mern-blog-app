@@ -40,6 +40,7 @@ const userLoginCtrl = expressAsyncHandler(async (req, res) => {
       email: userFound?.email,
       profilePhoto: userFound?.profilePhoto,
       isAdmin: userFound?.isAdmin,
+      isAccountVerified: userFound?.isAccountVerified,
       token: generateToken(userFound?._id),
     });
   } else {
@@ -245,16 +246,18 @@ const unblockUserCtrl = expressAsyncHandler(async (req, res) => {
 
 // Generate Email Verification Token for User
 const generateVerificationTokenCtrl = expressAsyncHandler(async (req, res) => {
-  const loginUserId = req.user.id;
+  const loginUserId = req?.user?.id;
+
   const user = await User.findById(loginUserId);
+  
   try {
     // generate account verification token
-    const generateToken = await user.createAccountVerificationToken();
+    const generateToken = await user?.createAccountVerificationToken();
     // save the user
     await user.save();
     const verifyURL = `If you were requested to verify your account, verify now within 10 minutes, otherwise ignore this message. <a href="http://localhost:3000/verify-account/${generateToken}" target="_blank">Click here to verify</a>`;
     const msg = {
-      to: "xilak95663@serosin.com",
+      to: user?.email,
       from: "farajinahid2@gmail.com",
       subject: "Verify Your Blog App",
       html: verifyURL,
@@ -269,6 +272,7 @@ const generateVerificationTokenCtrl = expressAsyncHandler(async (req, res) => {
 // Verify user account status => here we will re hash our raw token and compare it to the database token if it matched or not or expired!
 const accountVerificationStatusCtrl = expressAsyncHandler(async (req, res) => {
   const { verificationToken } = req?.body;
+ 
   const hashedVerificationToken = crypto
     .createHash("sha256")
     .update(verificationToken)

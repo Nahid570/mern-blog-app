@@ -5,8 +5,8 @@ const validateMongodbId = require("../../utils/validateMongodbID");
 const createCategoryCtrl = expressAsynchandler(async (req, res) => {
   try {
     const category = await Category.create({
-      user: req?.user.id,
-      title: req?.body.title,
+      user: req?.user?.id,
+      title: req?.body?.title,
     });
     res.json(category);
   } catch (error) {
