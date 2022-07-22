@@ -7,13 +7,15 @@ import { useEffect } from "react";
 
 const UsersList = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchAllUsersAction())
-  }, [dispatch])
-
   // get all the users from the store
   const users = useSelector(state => state?.users);
-  const {allUsers} = users;
+  const {allUsers, block, unblock} = users;
+  useEffect(() => {
+    dispatch(fetchAllUsersAction())
+  }, [dispatch, block, unblock])
+
+  
+  
   return (
     <>
       <section className="py-8 bg-gray-900 min-h-screen">

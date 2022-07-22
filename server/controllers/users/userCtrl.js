@@ -5,6 +5,7 @@ const validateMongodbID = require("../../utils/validateMongodbID");
 const sgMail = require("@sendgrid/mail");
 const crypto = require("crypto");
 const { cloudinaryUploadProfileImages } = require("../../utils/cloudinary");
+const isBlocked = require("../../utils/isBlocked");
 require("dotenv").config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -110,6 +111,7 @@ const userProfileCtrl = expressAsyncHandler(async (req, res) => {
 // User profile update controller
 const userProfileUpdateCtrl = expressAsyncHandler(async (req, res) => {
   const { _id } = req?.user;
+  isBlocked(req?.user)
   validateMongodbID(_id);
 
   try {
@@ -353,6 +355,7 @@ const resetPasswordCtrl = expressAsyncHandler(async (req, res) => {
 // Upload profile photo controller
 const uploadProfilePhotoCtrl = expressAsyncHandler(async (req, res) => {
   const { id } = req?.user;
+  isBlocked(req?.user)
   const localPath = `public/images/profile/${req.file.filename}`;
   const imageUploaded = await cloudinaryUploadProfileImages(localPath);
 

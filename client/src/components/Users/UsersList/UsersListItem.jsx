@@ -2,11 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { MailIcon } from "@heroicons/react/solid";
 import { useNavigate } from "react-router-dom";
+import { blockUsersAction, unblockUsersAction } from "../../../redux/slices/users/UsersSlices";
+import { useDispatch } from "react-redux";
 
 
 const UsersListItem = user => {
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   // pass email to SendEmail component through react-router
   const emailPassHandler = () => {
     navigate("/send-email", {state: {email: user?.user?.email, id: user?.user?._id}})
@@ -56,14 +58,14 @@ const UsersListItem = user => {
 
             {user?.user?.isBlocked ? (
               <button
-                // onClick={() => dispatch(unBlockUserAction(user?.user?._id))}
+                onClick={() => dispatch(unblockUsersAction(user?.user?._id))}
                 className="inline-block py-1 px-2 text-center bg-gray-500 text-gray-300 mr-2 mb-1 lg:mb-0 text-xs border rounded"
               >
                 unblock
               </button>
             ) : (
               <button
-                // onClick={() => dispatch(blockUserAction(user?.user?._id))}
+                onClick={() => dispatch(blockUsersAction(user?.user?._id))}
                 className="inline-block py-1 px-2 text-center bg-red-600 text-gray-300 mr-2 mb-1 lg:mb-0 text-xs border rounded"
               >
                 Block
