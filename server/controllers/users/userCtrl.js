@@ -87,9 +87,21 @@ const fetchUserDetailsCtrl = expressAsyncHandler(async (req, res) => {
 const userProfileCtrl = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongodbID(id);
+  // Find the login user Id
+  const loginUserId = req?.user?.id;
+
   try {
-    const user = await User.findById(id).populate("posts");
-    res.json(user);
+    const user = await User.findById(id).populate("posts").populate("viewedby");
+    // check for login user Id already exists in "Viewed By" or not
+    const alreadyViewed = user?.viewedby?.find(user => user?._id?.toString() === loginUserId)
+    if(alreadyViewed){
+      res.json(user);
+    }else{
+      const profile = await User.findByIdAndUpdate(id, {
+        $push: {viewedby: loginUserId}
+      })
+      res.json(profile)
+    }
   } catch (error) {
     res.json(error);
   }
