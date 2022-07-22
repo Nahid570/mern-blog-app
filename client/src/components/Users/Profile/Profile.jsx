@@ -72,7 +72,7 @@ export default function Profile() {
                           <h1 className="text-2xl font-bold text-gray-900 capitalize mt-2">
                             {userProfile?.firstName} {userProfile?.lastName}
                             <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-                              {/* {profile?.accountType} */}
+                              {userProfile?.accountType}
                             </span>
                             {/* Display if verified or not */}
                             {userProfile?.isAccountVerified ? (
@@ -107,7 +107,8 @@ export default function Profile() {
 
                           {/* is login user */}
                           {/* Upload profile photo */}
-                          <Link
+                          {
+                            isLogin && <Link
                             to={`/upload-profile-photo`}
                             className="inline-flex justify-center w-48 px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                           >
@@ -117,6 +118,7 @@ export default function Profile() {
                             />
                             <span>Upload Photo</span>
                           </Link>
+                          }
                         </div>
 
                         <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
@@ -223,7 +225,7 @@ export default function Profile() {
                               {user?.firstName} {user?.lastName}
                             </h3>
                             <p className="text-indigo-600">
-                              {/* {user.accountType} */} Account Type
+                              {userProfile?.accountType}
                             </p>
                           </div>
                         </div>

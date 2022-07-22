@@ -16,6 +16,7 @@ import Profile from "./components/Users/Profile/Profile";
 import UpdateProfile from "./components/Users/Profile/UpdateProfile";
 import UploadProfilePhoto from "./components/Users/Profile/UploadProfilePhoto";
 import Register from "./components/Users/Register/Register";
+import UsersList from "./components/Users/UsersList/UsersList";
 import AdminRoutes from "./hooks/Routes/AdminRoutes";
 import PrivateRoutes from "./hooks/Routes/PrivateRoutes";
 import NotFound from "./utils/NotFound";
@@ -46,6 +47,7 @@ function App() {
             <Route path="/category-list" element={<CategoryList />}/>
             <Route path="/update-category/:id" element={<UpdateCategory />}/>
             <Route path="/send-email" element={<SendEmail />}/>
+            <Route path="/users" element={<UsersList />}/>
         </Route>
         <Route path="/*" element={<NotFound />}/>
       </Routes>

@@ -226,6 +226,36 @@ export const userUnfollowAction = createAsyncThunk(
   }
 );
 
+// fetch user profile
+export const fetchAllUsersAction = createAsyncThunk(
+  "fetch/users",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    // get the token
+    const users = getState()?.users;
+    const { token } = users?.userAuth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${baseUrl}/api/users`,
+        config
+      );
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+// fetch all the users
+
+
 // retrive user login credential after successfull login and save into store
 const userData = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -373,6 +403,21 @@ const userSlices = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(logoutUserAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload.message;
+      state.serverErr = action?.error?.message;
+    });
+    // fetch all the users
+    builder.addCase(fetchAllUsersAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchAllUsersAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.allUsers = action?.payload;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(fetchAllUsersAction.rejected, (state, action) => {
       state.loading = false;
       state.appErr = action?.payload.message;
       state.serverErr = action?.error?.message;

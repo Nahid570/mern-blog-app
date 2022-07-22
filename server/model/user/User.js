@@ -109,6 +109,12 @@ userSchema.virtual("posts", {
   localField: "_id",
 });
 
+// Account Types
+userSchema.virtual("accountType").get(function(){
+  const totalFollowers = this.followers?.length;
+  return totalFollowers>=2 ? "Pro" : "Starter"
+})
+
 // Hash password before save
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
