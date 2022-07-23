@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Blog App",
   "main": "server.js",
+  "engines": {
+    "node": "16.16.0",
+    "npm": "8.14.0"
+},
   "scripts": {
     "server": "nodemon server.js"
   },
