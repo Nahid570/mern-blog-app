@@ -12,6 +12,9 @@ import UpdatePost from "./components/Posts/UpdatePost";
 import VerifyAccount from "./components/Users/accountVerification/VerifyAccount";
 import SendEmail from "./components/Users/Email/SendEmail";
 import Login from "./components/Users/Login/Login";
+import ResetPassword from "./components/Users/PasswordManagement/ResetPassword";
+import ResetPasswordForm from "./components/Users/PasswordManagement/ResetPasswordForm";
+import UpdatePassword from "./components/Users/PasswordManagement/UpdatePassword.jsx";
 import Profile from "./components/Users/Profile/Profile";
 import UpdateProfile from "./components/Users/Profile/UpdateProfile";
 import UploadProfilePhoto from "./components/Users/Profile/UploadProfilePhoto";
@@ -31,6 +34,8 @@ function App() {
         <Route path="/login" element={<Login />}/>
         <Route path="/posts" element={<PostsList />}/>
         <Route path="/posts/:id" element={<PostDetails />}/>
+        <Route path="/reset-password-token" element={<ResetPasswordForm />}/>
+        <Route path="/reset-password/:token" element={<ResetPassword />}/>
         {/* PRIVATE ROUTES  */}
         <Route path="/" element={<PrivateRoutes />}>
             <Route path="/create-post" element={<CreatePost />} />
@@ -40,6 +45,7 @@ function App() {
             <Route path="/upload-profile-photo" element={<UploadProfilePhoto />} />
             <Route path="/update-profile" element={<UpdateProfile />} />
             <Route path="/verify-account/:token" element={<VerifyAccount />} />
+            <Route path="/update-password" element={<UpdatePassword />} />
         </Route>
         {/* ADMIN ROUTES  */}
         <Route path="/" element={<AdminRoutes />}>

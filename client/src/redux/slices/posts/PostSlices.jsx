@@ -33,7 +33,7 @@ export const createPostAction = createAsyncThunk(
       );
       return data;
     } catch (error) {
-      if (!error.response) {
+      if (!error?.response) {
         throw error;
       }
       return rejectWithValue(error?.response?.data);
@@ -197,6 +197,7 @@ const postSlice = createSlice({
       state.postCreated = action?.payload;
     });
     builder.addCase(createPostAction.rejected, (action, state) => {
+      console.log(action);
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;

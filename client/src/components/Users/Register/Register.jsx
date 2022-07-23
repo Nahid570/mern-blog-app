@@ -54,7 +54,7 @@ const Register = () => {
     })
     // Redirect user if successfully registered
     if(registered){
-      return <Navigate to='/profile' replace={true}/>
+      return <Navigate to='/login' replace={true}/>
     }
   return (
     <section className="relative py-20 2xl:py-40 bg-gray-800 overflow-hidden">

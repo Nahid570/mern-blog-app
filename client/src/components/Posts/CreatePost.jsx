@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createPostAction } from "../../redux/slices/posts/PostSlices";
 import CategoryDropdown from "../Category/CategoryDropdown";
 import Dropzone from "react-dropzone";
@@ -27,6 +27,8 @@ const validate = (values) => {
 const CreatePost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const checkCreatedPost = useSelector(state => state?.post);
+  const {postCreated} = checkCreatedPost;
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -52,6 +54,7 @@ const CreatePost = () => {
             Share your ideas to the world. Your post must be free from profanity
           </p>
         </p>
+        <p className="text-red-600 text-2xl text-center">{postCreated?.message}</p>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">

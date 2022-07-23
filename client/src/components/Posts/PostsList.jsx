@@ -13,6 +13,7 @@ export default function PostsList() {
 
   const state = useSelector((state) => state?.post);
   const { loading, appErr, serverErr, postsList, likes, dislikes } = state;
+  
   // fetch all posts
   useEffect(() => {
     dispatch(fetchAllPostsAction(""));

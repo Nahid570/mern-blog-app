@@ -2,7 +2,7 @@ import poster from "../../../img/poster.png";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserAction } from "../../../redux/slices/users/UsersSlices";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const validate = (values) => {
   const errors = {};
@@ -157,6 +157,9 @@ const Login = () => {
                     </button>
                   )}
                 </form>
+                    <Link to={"/reset-password-token"}>
+                      <p className="flex justify-end mt-2 text-blue-500 hover:text-black">Forget Password?</p>
+                    </Link>
               </div>
             </div>
             <div className="w-full lg:w-3/5 px-4 mb-16 lg:mb-0 order-first lg:order-last">
