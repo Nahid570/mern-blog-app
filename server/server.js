@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
+// const path = require("path");
 const dbConnect = require("./config/db/dbConnect");
 const { errorHandler, notFound } = require("./middlewares/error/errorHandler");
 const userRouter = require("./route/user/usersRoute");
@@ -32,13 +32,13 @@ app.use("/api/email", sendMailRouter);
 app.use("/api/category", categoryRouter);
 
 // Deployment
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, '/client/build')));
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, '/client/build')));
 
-  app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
-  });
-}
+//   app.get('/*', function (req, res) {
+//     res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+//   });
+// }
 
 // error handler
 app.use(notFound);
