@@ -36,6 +36,6 @@ app.get('/', (req, res) => { res.send('Hello from Express!')});
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(process.env.PORT || 7000, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+app.listen(process.env.PORT || 5000, () => {
+  console.log(`Server running on port ${process.env.PORT || 5000}`);
 });

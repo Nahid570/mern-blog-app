@@ -4,7 +4,7 @@
   "description": "Blog App",
   "main": "server.js",
   "engines": {
-    "node": "14.19.0",
+    "node": "16.16.0",
     "yarn": "1.22.19"
 },
   "scripts": {
