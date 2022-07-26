@@ -269,7 +269,7 @@ const generateVerificationTokenCtrl = expressAsyncHandler(async (req, res) => {
     const generateToken = await user?.createAccountVerificationToken();
     // save the user
     await user.save();
-    const verifyURL = `If you were requested to verify your account, verify now within 10 minutes, otherwise ignore this message. <a href="https://mern-blog-app17.herokuapp.com/verify-account/${generateToken}" target="_blank">Click here to verify</a>`;
+    const verifyURL = `If you were requested to verify your account, verify now within 10 minutes, otherwise ignore this message. <a href="https://storied-syrniki-9714a1.netlify.app/verify-account/${generateToken}" target="_blank">Click here to verify</a>`;
     const msg = {
       to: user?.email,
       from: "farajinahid2@gmail.com",
@@ -315,7 +315,7 @@ const forgetPasswordTokenCtrl = expressAsyncHandler(async (req, res) => {
     // save the user to db
     await user.save();
 
-    const resetURL = `If you were requested to reset your password, reset it now within 10 minutes, otherwise ignore this message. <a href="https://mern-blog-app17.herokuapp.com/reset-password/${resetToken}" target="_blank">Click here to reset...</a>`;
+    const resetURL = `If you were requested to reset your password, reset it now within 10 minutes, otherwise ignore this message. <a href="https://storied-syrniki-9714a1.netlify.app/reset-password/${resetToken}" target="_blank">Click here to reset...</a>`;
     const msg = {
       to: email,
       from: "farajinahid2@gmail.com",
