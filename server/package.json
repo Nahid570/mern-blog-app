@@ -8,6 +8,7 @@
     "yarn": "1.22.19"
 },
   "scripts": {
+    "start": "node server.js",
     "server": "nodemon server.js"
   },
   "author": "Nahid Faraji",
