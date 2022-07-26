@@ -41,6 +41,10 @@ app.use("/api/category", categoryRouter);
 //   });
 // }
 
+app.get("/", (req, res) => {
+  res.send("Heroku is working!");
+})
+
 // error handler
 app.use(notFound);
 app.use(errorHandler);
